@@ -1,7 +1,7 @@
 
 import Foundation
 
-public struct Site {
+public struct Site: Equatable {
     private let rawValue: String
 
     fileprivate init(_ rawValue: String) {
