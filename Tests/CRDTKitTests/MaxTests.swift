@@ -2,8 +2,9 @@
 import CRDTKit
 import XCTest
 
-extension Max: Randomizable where Value: Randomizable {
-    static var random: Max { Max(.random) }
+extension Int {
+    // Limited to stop overflows on addition
+    fileprivate static var random: Int { .random(in: -10_000..<10_000) }
 }
 
 final class MaxTests: XCTestCase {
@@ -22,8 +23,8 @@ final class MaxTests: XCTestCase {
     }
 
     func testLaws() {
-        Max<Int>.testCommutativity()
-        Max<Int>.testAssociativity()
-        Max<Int>.testIdempotency()
+        AssertCommutative { Max(Int.random) }
+        AssertAssociative { Max(Int.random) }
+        AssertIdempotent { Max(Int.random) }
     }
 }
