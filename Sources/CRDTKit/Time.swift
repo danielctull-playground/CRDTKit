@@ -10,9 +10,7 @@ public struct Time: Equatable {
 
 extension Time {
 
-    public init() {
-        self.init(0)
-    }
+    public static let zero = Time(0)
 
     public mutating func increment() {
         self = Time(rawValue + 1)
