@@ -27,12 +27,3 @@ final class AtomTests: XCTestCase {
                value: 2))
     }
 }
-
-extension Time {
-
-    fileprivate static let one = {
-        var time = zero
-        time.increment()
-        return time
-    }()
-}

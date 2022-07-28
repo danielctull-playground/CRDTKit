@@ -12,9 +12,9 @@ extension Time {
 
     public static let zero = Time(0)
 
-    public mutating func increment() {
-        self = Time(rawValue + 1)
-    }
+    public var incremented: Time { Time(rawValue + 1) }
+
+    public mutating func increment() { self = incremented }
 }
 
 extension Time: Comparable {
@@ -22,4 +22,9 @@ extension Time: Comparable {
     public static func < (lhs: Time, rhs: Time) -> Bool {
         lhs.rawValue < rhs.rawValue
     }
+}
+
+extension Time: CustomStringConvertible {
+
+    public var description: String { "\(rawValue)" }
 }
