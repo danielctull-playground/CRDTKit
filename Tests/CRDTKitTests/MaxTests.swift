@@ -2,11 +2,6 @@
 import CRDTKit
 import XCTest
 
-extension Int {
-    // Limited to stop overflows on addition
-    fileprivate static var random: Int { .random(in: -10_000..<10_000) }
-}
-
 final class MaxTests: XCTestCase {
 
     func test() {
