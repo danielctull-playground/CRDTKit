@@ -17,6 +17,20 @@ final class MaxTests: XCTestCase {
         XCTAssertEqual(b.value, 11)
     }
 
+    func testDecodable() throws {
+        let value = Int.random
+        let data = try JSONEncoder().encode(value)
+        let max = try JSONDecoder().decode(Max<Int>.self, from: data)
+        XCTAssertEqual(max.value, value)
+    }
+
+    func testEncodable() throws {
+        let value = Int.random
+        let data = try JSONEncoder().encode(Max(value))
+        let int = try JSONDecoder().decode(Int.self, from: data)
+        XCTAssertEqual(int, value)
+    }
+
     func testLaws() {
         AssertCommutative { Max(Int.random) }
         AssertAssociative { Max(Int.random) }
