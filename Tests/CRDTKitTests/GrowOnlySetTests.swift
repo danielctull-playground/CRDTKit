@@ -10,11 +10,8 @@ extension Int {
 extension GrowOnlySet where Element == Int {
 
     fileprivate static var random: Self {
-        let count = Int.random(in: 1...1000)
         var set = GrowOnlySet<Int>()
-        for _ in 0..<count {
-            set.insert(.random)
-        }
+        loop(.random(in: 1...1000)) { set.insert(.random) }
         return set
     }
 }

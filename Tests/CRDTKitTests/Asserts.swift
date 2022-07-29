@@ -18,7 +18,7 @@ func AssertAssociative<T: CRDT, V: Equatable>(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    for _ in 0..<1000 {
+    loop(1000) {
         let a = make()
         let b = make()
         let c = make()
@@ -55,7 +55,7 @@ func AssertCommutative<T: CRDT, V: Equatable>(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    for _ in 0..<1000 {
+    loop(1000) {
         let a = make()
         let b = make()
         XCTAssertEqual(
@@ -84,7 +84,7 @@ func AssertIdempotent<T: CRDT, V: Equatable>(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    for _ in 0..<1000 {
+    loop(1000) {
         let a = make()
         XCTAssertEqual(
             a.merging(a)[keyPath: keyPath],
