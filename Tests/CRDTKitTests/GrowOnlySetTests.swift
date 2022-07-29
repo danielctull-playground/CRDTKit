@@ -27,6 +27,18 @@ final class GrowOnlySetTests: XCTestCase {
         XCTAssertTrue(set.contains(value))
     }
 
+    func testDecodable() throws {
+        let data = try JSONEncoder().encode(Set([0,1,2,3]))
+        let set = try JSONDecoder().decode(GrowOnlySet<Int>.self, from: data)
+        XCTAssertEqual(set, [0,1,2,3])
+    }
+
+    func testEncodable() throws {
+        let data = try JSONEncoder().encode(GrowOnlySet([0,1,2,3]))
+        let set = try JSONDecoder().decode(Set<Int>.self, from: data)
+        XCTAssertEqual(set, [0,1,2,3])
+    }
+
     func testEquatable() {
         XCTAssertEqual(GrowOnlySet<Int>(), GrowOnlySet<Int>())
         let value = Int.random

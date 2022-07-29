@@ -30,6 +30,22 @@ extension GrowOnlySet {
     }
 }
 
+// MARK: - Codable
+
+extension GrowOnlySet: Decodable where Element: Decodable {
+
+    public init(from decoder: Decoder) throws {
+        try self.init(elements: Set(from: decoder))
+    }
+}
+
+extension GrowOnlySet: Encodable where Element: Encodable {
+
+    public func encode(to encoder: Encoder) throws {
+        try elements.encode(to: encoder)
+    }
+}
+
 // MARK: - ExpressibleByArrayLiteral
 
 extension GrowOnlySet: ExpressibleByArrayLiteral {
