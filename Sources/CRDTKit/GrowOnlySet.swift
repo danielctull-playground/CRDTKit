@@ -1,10 +1,16 @@
 
 public struct GrowOnlySet<Element: Hashable>: Equatable {
-
     private var elements: Set<Element>
+}
 
-    public init(_ elements: Set<Element> = []) {
-        self.elements = elements
+extension GrowOnlySet {
+
+    public init() {
+        self.init(elements: [])
+    }
+
+    public init<S: Sequence>(_ sequence: S) where S.Element == Element {
+        self.init(elements: Set(sequence))
     }
 }
 
@@ -21,6 +27,15 @@ extension GrowOnlySet {
 
     public mutating func formUnion(_ other: GrowOnlySet) {
         elements.formUnion(other.elements)
+    }
+}
+
+// MARK: - ExpressibleByArrayLiteral
+
+extension GrowOnlySet: ExpressibleByArrayLiteral {
+
+    public init(arrayLiteral elements: Element...) {
+        self.init(elements: Set(elements))
     }
 }
 
