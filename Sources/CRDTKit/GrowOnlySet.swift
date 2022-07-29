@@ -24,6 +24,26 @@ extension GrowOnlySet {
     }
 }
 
+// MARK: - Sequence
+
+extension GrowOnlySet: Sequence {
+
+    /// The number of elements in the set.
+    ///
+    /// - Complexity: O(1)
+    public var count: Int { elements.count }
+
+    /// Returns a Boolean value that indicates whether the given element exists
+    /// in the set.
+    ///
+    /// - Parameter member: An element to look for in the set.
+    /// - Returns: `true` if member exists in the set; otherwise, `false`.
+    /// - Complexity: O(1)
+    public func contains(_ member: Element) -> Bool {
+        elements.contains(member)
+    }
+}
+
 // MARK: - Collection
 
 extension GrowOnlySet: Collection {
