@@ -2,11 +2,11 @@
 /// Performs the given closure ``count`` amount of times.
 ///
 /// - Parameters:
-///   - count: The amount of times to call ``function``.
+///   - amount: The amount of times to call ``function``.
 ///   - function: A closure to be called.
-func loop(_ count: Int, function: () -> Void) {
-    guard count > 0 else { return }
-    for _ in 0..<count { function() }
+func loop(_ amount: Int, function: () -> Void) {
+    guard amount > 0 else { return }
+    for _ in 0..<amount { function() }
 }
 
 extension Int {
