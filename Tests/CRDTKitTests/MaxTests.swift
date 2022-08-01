@@ -32,8 +32,8 @@ final class MaxTests: XCTestCase {
     }
 
     func testLaws() {
-        AssertCommutative { Max(Int.random) }
-        AssertAssociative { Max(Int.random) }
-        AssertIdempotent { Max(Int.random) }
+        AssertCommutative { Max(Int.random) } mutate: { $0.value = .random }
+        AssertAssociative { Max(Int.random) } mutate: { $0.value = .random }
+        AssertIdempotent { Max(Int.random) } mutate: { $0.value = .random }
     }
 }

@@ -74,8 +74,8 @@ final class GrowOnlySetTests: XCTestCase {
     }
 
     func testLaws() {
-        AssertCommutative { GrowOnlySet.random }
-        AssertAssociative { GrowOnlySet.random }
-        AssertIdempotent { GrowOnlySet.random }
+        AssertAssociative { GrowOnlySet.random } mutate: { $0.insert(.random) }
+        AssertCommutative { GrowOnlySet.random } mutate: { $0.insert(.random) }
+        AssertIdempotent { GrowOnlySet.random } mutate: { $0.insert(.random) }
     }
 }

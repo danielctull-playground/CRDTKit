@@ -2,26 +2,34 @@
 import CRDTKit
 import XCTest
 
+typealias Make<T> = () -> T
+typealias Mutate<T> = (inout T) -> ()
+
 // MARK: - Assert Associative
 
 func AssertAssociative<T: CRDT & Equatable>(
-    _ make: () -> T,
+    make: Make<T>,
+    mutate: Mutate<T>,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    AssertAssociative(validating: \.self, make, file: file, line: line)
+    AssertAssociative(
+        validating: \.self,
+        make: make,
+        mutate: mutate,
+        file: file,
+        line: line)
 }
 
 func AssertAssociative<T: CRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
-    _ make: () -> T,
+    make: Make<T>,
+    mutate: Mutate<T>,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    loop(1000) {
-        let a = make()
-        let b = make()
-        let c = make()
+
+    func assert(_ a: T, _ b: T, _ c: T) {
         XCTAssertEqual(
             a.merging(b).merging(c)[keyPath: keyPath],
             a.merging(b.merging(c))[keyPath: keyPath],
@@ -37,27 +45,45 @@ func AssertAssociative<T: CRDT, V: Equatable>(
             line: line
         )
     }
+
+    loop(1000) {
+        var a = make()
+        var b = make()
+        var c = make()
+        assert(a, b, c)
+
+        mutate(&a)
+        mutate(&b)
+        mutate(&c)
+        assert(a, b, c)
+    }
 }
 
 // MARK: - Assert Commutative
 
 func AssertCommutative<T: CRDT & Equatable>(
-    _ make: () -> T,
+    make: Make<T>,
+    mutate: Mutate<T>,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    AssertCommutative(validating: \.self, make, file: file, line: line)
+    AssertCommutative(
+        validating: \.self,
+        make: make,
+        mutate: mutate,
+        file: file,
+        line: line)
 }
 
 func AssertCommutative<T: CRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
-    _ make: () -> T,
+    make: Make<T>,
+    mutate: Mutate<T>,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    loop(1000) {
-        let a = make()
-        let b = make()
+
+    func assert(_ a: T, _ b: T) {
         XCTAssertEqual(
             a.merging(b)[keyPath: keyPath],
             b.merging(a)[keyPath: keyPath],
@@ -66,26 +92,43 @@ func AssertCommutative<T: CRDT, V: Equatable>(
             line: line
         )
     }
+
+    loop(1000) {
+        var a = make()
+        var b = make()
+        assert(a, b)
+
+        mutate(&a)
+        mutate(&b)
+        assert(a, b)
+    }
 }
 
 // MARK: - Assert Idempotent
 
 func AssertIdempotent<T: CRDT & Equatable>(
-    _ make: () -> T,
+    make: Make<T>,
+    mutate: Mutate<T>,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    AssertIdempotent(validating: \.self, make, file: file, line: line)
+    AssertIdempotent(
+        validating: \.self,
+        make: make,
+        mutate: mutate,
+        file: file,
+        line: line)
 }
 
 func AssertIdempotent<T: CRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
-    _ make: () -> T,
+    make: Make<T>,
+    mutate: Mutate<T>,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    loop(1000) {
-        let a = make()
+
+    func assert(_ a: T) {
         XCTAssertEqual(
             a.merging(a)[keyPath: keyPath],
             a[keyPath: keyPath],
@@ -93,5 +136,13 @@ func AssertIdempotent<T: CRDT, V: Equatable>(
             file: file,
             line: line
         )
+    }
+
+    loop(1000) {
+        var a = make()
+        assert(a)
+
+        mutate(&a)
+        assert(a)
     }
 }
