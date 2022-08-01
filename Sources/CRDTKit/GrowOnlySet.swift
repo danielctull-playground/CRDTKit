@@ -9,7 +9,7 @@ extension GrowOnlySet {
         self.init(elements: [])
     }
 
-    public init(_ sequence: some Sequence<Element>) {
+    public init<S: Sequence>(_ sequence: S) where S.Element == Element {
         self.init(elements: Set(sequence))
     }
 }
