@@ -1,5 +1,6 @@
 
 import CRDTKit
+import CRDTTest
 import XCTest
 
 final class MaxTests: XCTestCase {

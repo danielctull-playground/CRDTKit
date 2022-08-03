@@ -1,5 +1,6 @@
 
 import CRDTKit
+import CRDTTest
 import XCTest
 
 extension GrowOnlySet where Element == Int {

@@ -2,12 +2,12 @@
 import CRDTKit
 import XCTest
 
-typealias Make<T> = () -> T
-typealias Mutate<T> = (inout T) -> ()
+public typealias Make<T> = () -> T
+public typealias Mutate<T> = (inout T) -> ()
 
 // MARK: - Assert Associative
 
-func AssertAssociative<T: CRDT & Equatable>(
+public func AssertAssociative<T: CRDT & Equatable>(
     make: Make<T>,
     mutate: Mutate<T>,
     file: StaticString = #filePath,
@@ -21,7 +21,7 @@ func AssertAssociative<T: CRDT & Equatable>(
         line: line)
 }
 
-func AssertAssociative<T: CRDT, V: Equatable>(
+public func AssertAssociative<T: CRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: Make<T>,
     mutate: Mutate<T>,
@@ -61,7 +61,7 @@ func AssertAssociative<T: CRDT, V: Equatable>(
 
 // MARK: - Assert Commutative
 
-func AssertCommutative<T: CRDT & Equatable>(
+public func AssertCommutative<T: CRDT & Equatable>(
     make: Make<T>,
     mutate: Mutate<T>,
     file: StaticString = #filePath,
@@ -75,7 +75,7 @@ func AssertCommutative<T: CRDT & Equatable>(
         line: line)
 }
 
-func AssertCommutative<T: CRDT, V: Equatable>(
+public func AssertCommutative<T: CRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: Make<T>,
     mutate: Mutate<T>,
@@ -106,7 +106,7 @@ func AssertCommutative<T: CRDT, V: Equatable>(
 
 // MARK: - Assert Idempotent
 
-func AssertIdempotent<T: CRDT & Equatable>(
+public func AssertIdempotent<T: CRDT & Equatable>(
     make: Make<T>,
     mutate: Mutate<T>,
     file: StaticString = #filePath,
@@ -120,7 +120,7 @@ func AssertIdempotent<T: CRDT & Equatable>(
         line: line)
 }
 
-func AssertIdempotent<T: CRDT, V: Equatable>(
+public func AssertIdempotent<T: CRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: Make<T>,
     mutate: Mutate<T>,
