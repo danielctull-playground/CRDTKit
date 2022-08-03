@@ -5,7 +5,7 @@
 /// idempotent.
 ///
 /// - Associative:
-///   `a.merge(b).merge(c) == a.merge(b.merge(c)) == (a.merge(b)).merge(c)`
+///   `a.merge(b).merge(c) == a.merge(b.merge(c))`
 /// - Commutative:
 ///   `a.merge(b) == b.merge(a)`
 /// - Idempotent:

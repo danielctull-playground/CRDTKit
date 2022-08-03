@@ -32,13 +32,6 @@ public func AssertAssociative<T: CvRDT, V: Equatable>(
             file: file,
             line: line
         )
-        XCTAssertEqual(
-            a.merging(b).merging(c)[keyPath: keyPath],
-            (a.merging(b)).merging(c)[keyPath: keyPath],
-            "Not associative.",
-            file: file,
-            line: line
-        )
     }
 
     loop(1000) {
