@@ -32,9 +32,15 @@ final class MaxTests: XCTestCase {
         XCTAssertEqual(int, value)
     }
 
-    func testLaws() {
+    func testCvRDT() {
         AssertCommutative { Max(Int.random) } mutate: { $0.value = .random }
         AssertAssociative { Max(Int.random) } mutate: { $0.value = .random }
         AssertIdempotent { Max(Int.random) } mutate: { $0.value = .random }
+    }
+
+    func testCmRDT() {
+        AssertAssociative { Max(Int.random) } operation: { Max.Operation(.random) }
+//        AssertCommutative { Max(Int.random) } mutate: { $0.value = .random }
+        AssertIdempotent { Max(Int.random) } operation: { Max.Operation(.random) }
     }
 }

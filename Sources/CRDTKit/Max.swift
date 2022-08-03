@@ -17,6 +17,22 @@ extension Max: CvRDT {
     }
 }
 
+// MARK: - CmRDT
+
+extension Max: CmRDT {
+
+    public struct Operation {
+        let value: Value
+        public init(_ value: Value) {
+            self.value = value
+        }
+    }
+
+    public mutating func apply(_ operation: Operation) {
+        value = max(value, operation.value)
+    }
+}
+
 // MARK: - Codable
 
 extension Max: Decodable where Value: Decodable {
