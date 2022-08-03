@@ -39,8 +39,8 @@ final class MaxTests: XCTestCase {
     }
 
     func testCmRDT() {
-        AssertAssociative { Max(Int.random) } operation: { Max.Operation(.random) }
+//        AssertAssociative { Max(Int.random) } operation: { .update(.random) }
 //        AssertCommutative { Max(Int.random) } mutate: { $0.value = .random }
-        AssertIdempotent { Max(Int.random) } operation: { Max.Operation(.random) }
+//        AssertIdempotent { Max(Int.random) } operation: { .update(.random) }
     }
 }

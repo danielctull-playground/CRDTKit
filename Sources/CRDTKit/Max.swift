@@ -8,24 +8,16 @@ public struct Max<Value: Comparable>: Equatable {
     }
 }
 
-// MARK: - CvRDT
-
-extension Max: CvRDT {
-
-    public mutating func merge(_ other: Max<Value>) {
-        value = max(value, other.value)
-    }
-}
-
 // MARK: - CmRDT
 
 extension Max: CmRDT {
 
     public struct Operation {
-        let value: Value
-        public init(_ value: Value) {
-            self.value = value
-        }
+        fileprivate let value: Value
+    }
+
+    public var operations: [Operation] {
+        [Operation(value: value)]
     }
 
     public mutating func apply(_ operation: Operation) {
@@ -43,6 +35,20 @@ extension Max: Decodable where Value: Decodable {
 }
 
 extension Max: Encodable where Value: Encodable {
+
+    public func encode(to encoder: Encoder) throws {
+        try value.encode(to: encoder)
+    }
+}
+
+extension Max.Operation: Decodable where Value: Decodable {
+
+    public init(from decoder: Decoder) throws {
+        try self.init(value: Value(from: decoder))
+    }
+}
+
+extension Max.Operation: Encodable where Value: Encodable {
 
     public func encode(to encoder: Encoder) throws {
         try value.encode(to: encoder)
