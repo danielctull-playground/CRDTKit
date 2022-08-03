@@ -1,5 +1,7 @@
 
-/// This protocol wants a `merge` function that's associative, commutative and
+/// State-based CRDT: Convergent Replicated Data Type.
+///
+/// CvRDT requires a `merge` function that's associative, commutative and
 /// idempotent.
 ///
 /// - Associative:
@@ -8,11 +10,11 @@
 ///   `a.merge(b) == b.merge(a)`
 /// - Idempotent:
 ///   `a.merge(a) == a`
-public protocol CRDT {
+public protocol CvRDT {
     mutating func merge(_ other: Self)
 }
 
-extension CRDT {
+extension CvRDT {
 
     public func merging(_ other: Self) -> Self {
         var copy = self

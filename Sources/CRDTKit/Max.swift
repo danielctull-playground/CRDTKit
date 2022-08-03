@@ -8,9 +8,9 @@ public struct Max<Value: Comparable>: Equatable {
     }
 }
 
-// MARK: - CRDT
+// MARK: - CvRDT
 
-extension Max: CRDT {
+extension Max: CvRDT {
 
     public mutating func merge(_ other: Max<Value>) {
         value = max(value, other.value)

@@ -102,9 +102,9 @@ extension GrowOnlySet: Collection {
     }
 }
 
-// MARK: - CRDT
+// MARK: - CvRDT
 
-extension GrowOnlySet: CRDT {
+extension GrowOnlySet: CvRDT {
 
     public mutating func merge(_ other: GrowOnlySet) {
         formUnion(other)

@@ -7,7 +7,7 @@ public typealias Mutate<T> = (inout T) -> ()
 
 // MARK: - Assert Associative
 
-public func AssertAssociative<T: CRDT & Equatable>(
+public func AssertAssociative<T: CvRDT & Equatable>(
     make: Make<T>,
     mutate: Mutate<T>,
     file: StaticString = #filePath,
@@ -21,7 +21,7 @@ public func AssertAssociative<T: CRDT & Equatable>(
         line: line)
 }
 
-public func AssertAssociative<T: CRDT, V: Equatable>(
+public func AssertAssociative<T: CvRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: Make<T>,
     mutate: Mutate<T>,
@@ -61,7 +61,7 @@ public func AssertAssociative<T: CRDT, V: Equatable>(
 
 // MARK: - Assert Commutative
 
-public func AssertCommutative<T: CRDT & Equatable>(
+public func AssertCommutative<T: CvRDT & Equatable>(
     make: Make<T>,
     mutate: Mutate<T>,
     file: StaticString = #filePath,
@@ -75,7 +75,7 @@ public func AssertCommutative<T: CRDT & Equatable>(
         line: line)
 }
 
-public func AssertCommutative<T: CRDT, V: Equatable>(
+public func AssertCommutative<T: CvRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: Make<T>,
     mutate: Mutate<T>,
@@ -106,7 +106,7 @@ public func AssertCommutative<T: CRDT, V: Equatable>(
 
 // MARK: - Assert Idempotent
 
-public func AssertIdempotent<T: CRDT & Equatable>(
+public func AssertIdempotent<T: CvRDT & Equatable>(
     make: Make<T>,
     mutate: Mutate<T>,
     file: StaticString = #filePath,
@@ -120,7 +120,7 @@ public func AssertIdempotent<T: CRDT & Equatable>(
         line: line)
 }
 
-public func AssertIdempotent<T: CRDT, V: Equatable>(
+public func AssertIdempotent<T: CvRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: Make<T>,
     mutate: Mutate<T>,
