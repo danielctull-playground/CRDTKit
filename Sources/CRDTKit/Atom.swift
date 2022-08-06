@@ -24,3 +24,8 @@ public struct AtomID: Equatable, Hashable {
         self.time = time
     }
 }
+
+extension AtomID: CustomStringConvertible {
+
+    public var description: String { "\(site)@\(time)" }
+}

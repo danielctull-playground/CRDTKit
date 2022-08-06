@@ -29,3 +29,8 @@ extension Site: Comparable {
         lhs.rawValue < rhs.rawValue
     }
 }
+
+extension Site: CustomStringConvertible {
+
+    public var description: String { rawValue }
+}
