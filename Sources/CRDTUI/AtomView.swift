@@ -17,8 +17,11 @@ public struct AtomView<Value, Content: View>: View {
 
             Text(atom.id.description)
                 .padding(4)
+                .frame(maxWidth: .infinity)
                 .background(.yellow)
-                .border(.black)
+
+            Color.black
+                .frame(height: 1)
 
             content(atom.value)
                 .padding(4)
