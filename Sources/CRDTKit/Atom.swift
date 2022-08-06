@@ -1,5 +1,5 @@
 
-public struct Atom<Value> {
+public struct Atom<Value>: Identifiable {
     public let id: AtomID
     public let parent: AtomID?
     public let value: Value
@@ -13,9 +13,9 @@ public struct Atom<Value> {
 
 extension Atom: Equatable where Value: Equatable {}
 
-// MARK: -
+// MARK: - AtomID
 
-public struct AtomID: Equatable {
+public struct AtomID: Equatable, Hashable {
     public let site: Site
     public let time: Time
 

@@ -1,6 +1,6 @@
 
 /// An implementation of a Lamport timestamp.
-public struct Time: Equatable {
+public struct Time: Equatable, Hashable {
     private let rawValue: Int
 
     fileprivate init(_ rawValue: Int) {
