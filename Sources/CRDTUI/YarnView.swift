@@ -1,4 +1,6 @@
 
+#if canImport(SwiftUI)
+
 import CRDTKit
 import SwiftUI
 
@@ -48,3 +50,5 @@ struct YarnView_Previews: PreviewProvider {
         ]))
     }
 }
+
+#endif

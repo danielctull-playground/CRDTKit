@@ -1,4 +1,6 @@
 
+#if canImport(SwiftUI)
+
 import CRDTKit
 import SwiftUI
 
@@ -62,3 +64,5 @@ struct AtomView_Previews: PreviewProvider {
         AtomView(atom: Atom(id: AtomID(site: "Daniel", time: .zero), value: "Hello"))
     }
 }
+
+#endif
