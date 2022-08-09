@@ -39,8 +39,8 @@ public func AssertCommutative<T: CvRDT, V: Equatable>(
         var b = make()
         assert(a, b)
 
-        mutate(&a)
-        mutate(&b)
+        loop(.random(in: 1...10)) { mutate(&a) }
+        loop(.random(in: 1...10)) { mutate(&b) }
         assert(a, b)
     }
 }

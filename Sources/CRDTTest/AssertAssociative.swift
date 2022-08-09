@@ -91,9 +91,9 @@ public func AssertAssociative<T: CvRDT, V: Equatable>(
         var c = make()
         assert(a, b, c)
 
-        mutate(&a)
-        mutate(&b)
-        mutate(&c)
+        loop(.random(in: 1...10)) { mutate(&a) }
+        loop(.random(in: 1...10)) { mutate(&b) }
+        loop(.random(in: 1...10)) { mutate(&c) }
         assert(a, b, c)
     }
 }

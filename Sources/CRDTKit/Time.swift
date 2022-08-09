@@ -28,3 +28,17 @@ extension Time: CustomStringConvertible {
 
     public var description: String { "\(rawValue)" }
 }
+
+extension Time: Decodable {
+
+    public init(from decoder: Decoder) throws {
+        rawValue = try Int(from: decoder)
+    }
+}
+
+extension Time: Encodable {
+
+    public func encode(to encoder: Encoder) throws {
+        try rawValue.encode(to: encoder)
+    }
+}

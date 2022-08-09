@@ -82,7 +82,7 @@ public func AssertIdempotent<T: CvRDT, V: Equatable>(
         var a = make()
         assert(a)
 
-        mutate(&a)
+        loop(.random(in: 1...10)) { mutate(&a) }
         assert(a)
     }
 }
