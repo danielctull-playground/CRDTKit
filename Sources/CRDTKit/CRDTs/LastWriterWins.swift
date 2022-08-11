@@ -10,8 +10,12 @@ public struct LastWriterWins<Value> {
         self.time = time
     }
 
-    public var value: Value {
-        didSet { time.increment() }
+    public private(set) var value: Value
+
+    public mutating func setValue(_ newValue: Value, site newSite: Site) {
+        value = newValue
+        site = newSite
+        time.increment()
     }
 }
 
@@ -28,6 +32,7 @@ extension LastWriterWins: CvRDT {
         guard (other.time, other.site) > (time, site) else { return }
         value = other.value
         time = other.time
+        site = other.site
     }
 }
 

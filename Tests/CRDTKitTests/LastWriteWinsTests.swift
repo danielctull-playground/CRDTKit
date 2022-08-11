@@ -22,21 +22,21 @@ final class LastWriterWinsTests: XCTestCase {
         XCTAssertEqual(lww1.merging(lww2).value, value)
         XCTAssertEqual(lww2.merging(lww1).value, value)
 
-        lww1.value = value1
+        lww1.setValue(value1, site: "A")
         XCTAssertEqual(lww1.merging(lww2).value, value1)
         XCTAssertEqual(lww2.merging(lww1).value, value1)
 
         print("1:", lww1.debugDescription)
         print("2:", lww2.debugDescription)
 
-        lww2.value = value2
+        lww2.setValue(value2, site: "B")
         XCTAssertEqual(lww1.merging(lww2).value, value2)
         XCTAssertEqual(lww2.merging(lww1).value, value2)
 
         print("1:", lww1.debugDescription)
         print("2:", lww2.debugDescription)
 
-        lww1.value = value3
+        lww1.setValue(value3, site: "A")
         XCTAssertEqual(lww1.merging(lww2).value, value3)
         print("1:", lww1.debugDescription)
         print("2:", lww2.debugDescription)
@@ -89,8 +89,8 @@ final class LastWriterWinsTests: XCTestCase {
     }
 
     func testLaws() {
-        AssertAssociative(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.value = .random }
-        AssertCommutative(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.value = .random }
-        AssertIdempotent(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.value = .random }
+        AssertAssociative(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
+        AssertCommutative(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
+        AssertIdempotent(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
     }
 }
