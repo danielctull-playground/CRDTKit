@@ -19,22 +19,39 @@ public struct LastWriterWins<Value> {
     }
 }
 
-extension LastWriterWins: Decodable where Value: Decodable {}
-extension LastWriterWins: Encodable where Value: Encodable {}
 extension LastWriterWins: Equatable where Value: Equatable {}
 extension LastWriterWins: Hashable where Value: Hashable {}
 
-// MARK: - CvRDT
+// MARK: - CmRDT
 
-extension LastWriterWins: CvRDT {
+extension LastWriterWins: CmRDT {
 
-    public mutating func merge(_ other: Self) {
-        guard (other.time, other.site) > (time, site) else { return }
-        value = other.value
-        time = other.time
-        site = other.site
+    public struct Operation {
+        fileprivate let site: Site
+        fileprivate let time: Time
+        fileprivate let value: Value
+    }
+
+    public var operations: [Operation] {
+        [Operation(site: site, time: time, value: value)]
+    }
+
+    public mutating func apply(_ operation: Operation) {
+        guard (operation.time, operation.site) > (time, site) else { return }
+        value = operation.value
+        time = operation.time
+        site = operation.site
     }
 }
+
+// MARK: - Codable
+
+extension LastWriterWins: Decodable where Value: Decodable {}
+extension LastWriterWins: Encodable where Value: Encodable {}
+extension LastWriterWins.Operation: Decodable where Value: Decodable {}
+extension LastWriterWins.Operation: Encodable where Value: Encodable {}
+
+// MARK: - CustomDebugStringConvertible
 
 extension LastWriterWins: CustomDebugStringConvertible {
 
