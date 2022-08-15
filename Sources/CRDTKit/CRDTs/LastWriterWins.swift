@@ -42,6 +42,11 @@ extension LastWriterWins: CmRDT {
         time = operation.time
         site = operation.site
     }
+
+    public func operation(value: Value, site: Site? = nil) -> Operation {
+        let site = site ?? self.site
+        return Operation(site: site, time: time.incremented, value: value)
+    }
 }
 
 // MARK: - Codable

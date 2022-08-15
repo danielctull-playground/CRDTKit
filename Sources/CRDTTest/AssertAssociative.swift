@@ -6,11 +6,11 @@ import XCTest
 
 public func AssertAssociative<T: CmRDT & Equatable>(
     make: () -> T,
-    operation: () -> T.Operation,
+    operation: (T) -> T.Operation,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    AssertIdempotent(
+    AssertAssociative(
         validating: \.self,
         make: make,
         operation: operation,
@@ -21,15 +21,15 @@ public func AssertAssociative<T: CmRDT & Equatable>(
 public func AssertAssociative<T: CmRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: () -> T,
-    operation makeOperation: () -> T.Operation,
+    operation: (T) -> T.Operation,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    
-    func assert(_ a: T, _ o1: T.Operation, _ o2: T.Operation) {
+
+    func assert(_ a: T, _ b: T, _ c: T) {
         XCTAssertEqual(
-            a.applying(o1).applying(o2)[keyPath: keyPath],
-            a.applying(o2).applying(o2)[keyPath: keyPath],
+            a.applying(b.operations).applying(c.operations)[keyPath: keyPath],
+            a.applying((b.applying(c.operations)).operations)[keyPath: keyPath],
             "Not idempotent.",
             file: file,
             line: line
@@ -37,10 +37,15 @@ public func AssertAssociative<T: CmRDT, V: Equatable>(
     }
 
     loop(1000) {
-        let a = make()
-        let op1 = makeOperation()
-        let op2 = makeOperation()
-        assert(a, op1, op2)
+        var a = make()
+        var b = make()
+        var c = make()
+        assert(a, b, c)
+
+        a.apply(operation(a))
+        b.apply(operation(b))
+        c.apply(operation(c))
+        assert(a, b, c)
     }
 }
 

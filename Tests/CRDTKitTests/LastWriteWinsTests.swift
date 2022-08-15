@@ -88,7 +88,13 @@ final class LastWriterWinsTests: XCTestCase {
         XCTAssertEqual(set2, [value2])
     }
 
-    func testLaws() {
+    func testCmRDT() {
+        AssertAssociative(validating: \.value) { LastWriterWins(Int.random) } operation: { $0.operation(value: .random) }
+        AssertCommutative(validating: \.value) { LastWriterWins(Int.random) } operation: { $0.operation(value: .random) }
+        AssertIdempotent(validating: \.value) { LastWriterWins(Int.random) } operation: { $0.operation(value: .random) }
+    }
+
+    func testCvRDT() {
         AssertAssociative(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
         AssertCommutative(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
         AssertIdempotent(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }

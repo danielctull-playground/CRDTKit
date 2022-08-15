@@ -6,7 +6,7 @@ import XCTest
 
 public func AssertIdempotent<T: CmRDT & Equatable>(
     make: () -> T,
-    operation: () -> T.Operation,
+    operation: (T) -> T.Operation,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
@@ -21,17 +21,15 @@ public func AssertIdempotent<T: CmRDT & Equatable>(
 public func AssertIdempotent<T: CmRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: () -> T,
-    operation: () -> T.Operation,
+    operation: (T) -> T.Operation,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
 
-    let operation = operation()
-
     func assert(_ a: T) {
         XCTAssertEqual(
-            a.applying(operation)[keyPath: keyPath],
-            a.applying(operation).applying(operation)[keyPath: keyPath],
+            a.applying(a.operations)[keyPath: keyPath],
+            a[keyPath: keyPath],
             "Not idempotent.",
             file: file,
             line: line
@@ -39,7 +37,10 @@ public func AssertIdempotent<T: CmRDT, V: Equatable>(
     }
 
     loop(1000) {
-        let a = make()
+        var a = make()
+        assert(a)
+
+        loop(.random(in: 1...10)) { a.apply(operation(a)) }
         assert(a)
     }
 }
