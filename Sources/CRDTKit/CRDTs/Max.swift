@@ -23,6 +23,10 @@ extension Max: CmRDT {
     public mutating func apply(_ operation: Operation) {
         value = max(value, operation.value)
     }
+
+    public func operation(value: Value) -> Operation {
+        Operation(value: value)
+    }
 }
 
 // MARK: - Codable
