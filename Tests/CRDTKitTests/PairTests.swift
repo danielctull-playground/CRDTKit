@@ -32,7 +32,7 @@ final class PairTests: XCTestCase {
     func testCmRDT() {
 
         AssertAssociative {
-            Pair(Max(Int.random), LastWriterWins(Int.random))
+            Pair(Max(Int.random), LWWRegister(Int.random))
         } operation: {
             if Bool.random() {
                 return $0.operation($0.a.operation(value: .random))
@@ -42,7 +42,7 @@ final class PairTests: XCTestCase {
         }
 
         AssertCommutative {
-            Pair(Max(Int.random), LastWriterWins(Int.random))
+            Pair(Max(Int.random), LWWRegister(Int.random))
         } operation: {
             if Bool.random() {
                 return $0.operation($0.a.operation(value: .random))
@@ -52,7 +52,7 @@ final class PairTests: XCTestCase {
         }
 
         AssertIdempotent {
-            Pair(Max(Int.random), LastWriterWins(Int.random))
+            Pair(Max(Int.random), LWWRegister(Int.random))
         } operation: {
             if Bool.random() {
                 return $0.operation($0.a.operation(value: .random))

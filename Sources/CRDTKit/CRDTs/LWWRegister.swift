@@ -1,5 +1,5 @@
 
-public struct LastWriterWins<Value> {
+public struct LWWRegister<Value> {
 
     private var site: Site
     private var time: Time
@@ -19,12 +19,12 @@ public struct LastWriterWins<Value> {
     }
 }
 
-extension LastWriterWins: Equatable where Value: Equatable {}
-extension LastWriterWins: Hashable where Value: Hashable {}
+extension LWWRegister: Equatable where Value: Equatable {}
+extension LWWRegister: Hashable where Value: Hashable {}
 
 // MARK: - CmRDT
 
-extension LastWriterWins: CmRDT {
+extension LWWRegister: CmRDT {
 
     public struct Operation {
         fileprivate let site: Site
@@ -51,14 +51,14 @@ extension LastWriterWins: CmRDT {
 
 // MARK: - Codable
 
-extension LastWriterWins: Decodable where Value: Decodable {}
-extension LastWriterWins: Encodable where Value: Encodable {}
-extension LastWriterWins.Operation: Decodable where Value: Decodable {}
-extension LastWriterWins.Operation: Encodable where Value: Encodable {}
+extension LWWRegister: Decodable where Value: Decodable {}
+extension LWWRegister: Encodable where Value: Encodable {}
+extension LWWRegister.Operation: Decodable where Value: Decodable {}
+extension LWWRegister.Operation: Encodable where Value: Encodable {}
 
 // MARK: - CustomDebugStringConvertible
 
-extension LastWriterWins: CustomDebugStringConvertible {
+extension LWWRegister: CustomDebugStringConvertible {
 
     public var debugDescription: String {
         "LWW(value: \(value), site: \(site), time: \(time))"

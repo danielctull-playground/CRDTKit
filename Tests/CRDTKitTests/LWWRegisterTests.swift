@@ -3,11 +3,11 @@ import CRDTKit
 import CRDTTest
 import XCTest
 
-final class LastWriterWinsTests: XCTestCase {
+final class LWWRegisterTests: XCTestCase {
 
     func testInit() {
         let value = Int.random
-        let lww = LastWriterWins(value)
+        let lww = LWWRegister(value)
         XCTAssertEqual(lww.value, value)
     }
 
@@ -17,8 +17,8 @@ final class LastWriterWinsTests: XCTestCase {
         let value2 = Int.random
         let value3 = Int.random
 
-        var lww1 = LastWriterWins(value, site: "A")
-        var lww2 = LastWriterWins(value, site: "B")
+        var lww1 = LWWRegister(value, site: "A")
+        var lww2 = LWWRegister(value, site: "B")
         XCTAssertEqual(lww1.merging(lww2).value, value)
         XCTAssertEqual(lww2.merging(lww1).value, value)
 
@@ -89,14 +89,14 @@ final class LastWriterWinsTests: XCTestCase {
     }
 
     func testCmRDT() {
-        AssertAssociative(validating: \.value) { LastWriterWins(Int.random) } operation: { $0.operation(value: .random) }
-        AssertCommutative(validating: \.value) { LastWriterWins(Int.random) } operation: { $0.operation(value: .random) }
-        AssertIdempotent(validating: \.value) { LastWriterWins(Int.random) } operation: { $0.operation(value: .random) }
+        AssertAssociative(validating: \.value) { LWWRegister(Int.random) } operation: { $0.operation(value: .random) }
+        AssertCommutative(validating: \.value) { LWWRegister(Int.random) } operation: { $0.operation(value: .random) }
+        AssertIdempotent(validating: \.value) { LWWRegister(Int.random) } operation: { $0.operation(value: .random) }
     }
 
     func testCvRDT() {
-        AssertAssociative(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
-        AssertCommutative(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
-        AssertIdempotent(validating: \.value) { LastWriterWins(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
+        AssertAssociative(validating: \.value) { LWWRegister(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
+        AssertCommutative(validating: \.value) { LWWRegister(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
+        AssertIdempotent(validating: \.value) { LWWRegister(Int.random) } mutate: { $0.setValue(.random, site: Site()) }
     }
 }
