@@ -29,6 +29,30 @@ extension GCounter: CvRDT {
     }
 }
 
+// MARK: - CmRDT
+
+extension GCounter: CmRDT {
+
+    public struct Operation {
+        fileprivate let site: Site
+        fileprivate let value: Max<Value>
+    }
+
+    public var operations: [Operation] {
+        storage.map(Operation.init)
+    }
+
+    public mutating func apply(_ operation: Operation) {
+        storage.merge([operation.site: operation.value]) { $0.merging($1) }
+    }
+
+    public func operation(increment: Value, site: Site? = nil) -> Operation {
+        let site = site ?? self.site
+        let value = storage[site, default: Max(.zero)].value
+        return Operation(site: site, value: Max(value + increment))
+    }
+}
+
 // MARK: - Codable
 
 extension GCounter: Decodable where Value: Decodable {}
