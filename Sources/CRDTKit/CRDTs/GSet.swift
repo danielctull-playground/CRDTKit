@@ -1,9 +1,10 @@
 
-public struct GrowOnlySet<Element: Hashable>: Equatable {
+/// A Grow-Only Set
+public struct GSet<Element: Hashable>: Equatable {
     private var elements: Set<Element>
 }
 
-extension GrowOnlySet {
+extension GSet {
 
     public init() {
         self.init(elements: [])
@@ -16,7 +17,7 @@ extension GrowOnlySet {
 
 // MARK: - Set Operations
 
-extension GrowOnlySet {
+extension GSet {
 
     @discardableResult
     public mutating func insert(
@@ -25,21 +26,21 @@ extension GrowOnlySet {
         elements.insert(newMember)
     }
 
-    public mutating func formUnion(_ other: GrowOnlySet) {
+    public mutating func formUnion(_ other: GSet) {
         elements.formUnion(other.elements)
     }
 }
 
 // MARK: - Codable
 
-extension GrowOnlySet: Decodable where Element: Decodable {
+extension GSet: Decodable where Element: Decodable {
 
     public init(from decoder: Decoder) throws {
         try self.init(elements: Set(from: decoder))
     }
 }
 
-extension GrowOnlySet: Encodable where Element: Encodable {
+extension GSet: Encodable where Element: Encodable {
 
     public func encode(to encoder: Encoder) throws {
         try elements.encode(to: encoder)
@@ -48,7 +49,7 @@ extension GrowOnlySet: Encodable where Element: Encodable {
 
 // MARK: - ExpressibleByArrayLiteral
 
-extension GrowOnlySet: ExpressibleByArrayLiteral {
+extension GSet: ExpressibleByArrayLiteral {
 
     public init(arrayLiteral elements: Element...) {
         self.init(elements: Set(elements))
@@ -57,7 +58,7 @@ extension GrowOnlySet: ExpressibleByArrayLiteral {
 
 // MARK: - Sequence
 
-extension GrowOnlySet: Sequence {
+extension GSet: Sequence {
 
     /// The number of elements in the set.
     ///
@@ -77,7 +78,7 @@ extension GrowOnlySet: Sequence {
 
 // MARK: - Collection
 
-extension GrowOnlySet: Collection {
+extension GSet: Collection {
 
     public struct Index: Comparable {
         fileprivate let index: Set<Element>.Index
@@ -104,9 +105,9 @@ extension GrowOnlySet: Collection {
 
 // MARK: - CvRDT
 
-extension GrowOnlySet: CvRDT {
+extension GSet: CvRDT {
 
-    public mutating func merge(_ other: GrowOnlySet) {
+    public mutating func merge(_ other: GSet) {
         formUnion(other)
     }
 }
