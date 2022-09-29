@@ -31,16 +31,16 @@ final class GCounterTests: XCTestCase {
     func testCmRDTBehaviour() {
         var a = GCounter(10)
         var b = GCounter(0)
-        b.apply(a.operations)
+        b.apply(a.transactions)
         XCTAssertEqual(b.value, 10)
         a += 1
         b += 1000
         b += 1000
         b += 1000
-        a.apply(b.operations)
-        b.apply(a.operations)
+        a.apply(b.transactions)
+        b.apply(a.transactions)
 
-        let op = b.operation(increment: 0)
+        let op = b.transaction(increment: 0)
         b.apply(op)
         a.apply(op)
 
@@ -50,8 +50,8 @@ final class GCounterTests: XCTestCase {
     }
 
     func testCmRDT() {
-        AssertAssociative(validating: \.value) { GCounter.random } operation: { $0.operation(increment: .random(in: 0...1000)) }
-        AssertCommutative(validating: \.value) { GCounter.random } operation: { $0.operation(increment: .random(in: 0...1000)) }
-        AssertIdempotent(validating: \.value) { GCounter.random } operation: { $0.operation(increment: .random(in: 0...1000)) }
+        AssertAssociative(validating: \.value) { GCounter.random } transaction: { $0.transaction(increment: .random(in: 0...1000)) }
+        AssertCommutative(validating: \.value) { GCounter.random } transaction: { $0.transaction(increment: .random(in: 0...1000)) }
+        AssertIdempotent(validating: \.value) { GCounter.random } transaction: { $0.transaction(increment: .random(in: 0...1000)) }
     }
 }

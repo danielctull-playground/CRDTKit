@@ -89,9 +89,9 @@ final class LWWRegisterTests: XCTestCase {
     }
 
     func testCmRDT() {
-        AssertAssociative(validating: \.value) { LWWRegister(Int.random) } operation: { $0.operation(value: .random) }
-        AssertCommutative(validating: \.value) { LWWRegister(Int.random) } operation: { $0.operation(value: .random) }
-        AssertIdempotent(validating: \.value) { LWWRegister(Int.random) } operation: { $0.operation(value: .random) }
+        AssertAssociative(validating: \.value) { LWWRegister(Int.random) } transaction: { $0.transaction(value: .random) }
+        AssertCommutative(validating: \.value) { LWWRegister(Int.random) } transaction: { $0.transaction(value: .random) }
+        AssertIdempotent(validating: \.value) { LWWRegister(Int.random) } transaction: { $0.transaction(value: .random) }
     }
 
     func testCvRDT() {

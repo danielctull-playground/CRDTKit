@@ -33,23 +33,23 @@ extension GCounter: CvRDT {
 
 extension GCounter: CmRDT {
 
-    public struct Operation {
+    public struct Transaction {
         fileprivate let site: Site
         fileprivate let value: Max<Value>
     }
 
-    public var operations: [Operation] {
-        storage.map(Operation.init)
+    public var transactions: [Transaction] {
+        storage.map(Transaction.init)
     }
 
-    public mutating func apply(_ operation: Operation) {
-        storage.merge([operation.site: operation.value]) { $0.merging($1) }
+    public mutating func apply(_ transaction: Transaction) {
+        storage.merge([transaction.site: transaction.value]) { $0.merging($1) }
     }
 
-    public func operation(increment: Value, site: Site? = nil) -> Operation {
+    public func transaction(increment: Value, site: Site? = nil) -> Transaction {
         let site = site ?? self.site
         let value = storage[site, default: Max(.zero)].value
-        return Operation(site: site, value: Max(value + increment))
+        return Transaction(site: site, value: Max(value + increment))
     }
 }
 

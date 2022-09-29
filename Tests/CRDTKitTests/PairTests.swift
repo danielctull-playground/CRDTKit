@@ -33,31 +33,31 @@ final class PairTests: XCTestCase {
 
         AssertAssociative {
             Pair(Max(Int.random), LWWRegister(Int.random))
-        } operation: {
+        } transaction: {
             if Bool.random() {
-                return $0.operation($0.a.operation(value: .random))
+                return $0.transaction($0.a.transaction(value: .random))
             } else {
-                return $0.operation($0.b.operation(value: .random))
+                return $0.transaction($0.b.transaction(value: .random))
             }
         }
 
         AssertCommutative {
             Pair(Max(Int.random), LWWRegister(Int.random))
-        } operation: {
+        } transaction: {
             if Bool.random() {
-                return $0.operation($0.a.operation(value: .random))
+                return $0.transaction($0.a.transaction(value: .random))
             } else {
-                return $0.operation($0.b.operation(value: .random))
+                return $0.transaction($0.b.transaction(value: .random))
             }
         }
 
         AssertIdempotent {
             Pair(Max(Int.random), LWWRegister(Int.random))
-        } operation: {
+        } transaction: {
             if Bool.random() {
-                return $0.operation($0.a.operation(value: .random))
+                return $0.transaction($0.a.transaction(value: .random))
             } else {
-                return $0.operation($0.b.operation(value: .random))
+                return $0.transaction($0.b.transaction(value: .random))
             }
         }
     }

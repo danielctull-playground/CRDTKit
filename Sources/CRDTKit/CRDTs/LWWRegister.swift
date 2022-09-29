@@ -26,26 +26,26 @@ extension LWWRegister: Hashable where Value: Hashable {}
 
 extension LWWRegister: CmRDT {
 
-    public struct Operation {
+    public struct Transaction {
         fileprivate let site: Site
         fileprivate let time: Time
         fileprivate let value: Value
     }
 
-    public var operations: [Operation] {
-        [Operation(site: site, time: time, value: value)]
+    public var transactions: [Transaction] {
+        [Transaction(site: site, time: time, value: value)]
     }
 
-    public mutating func apply(_ operation: Operation) {
-        guard (operation.time, operation.site) > (time, site) else { return }
-        value = operation.value
-        time = operation.time
-        site = operation.site
+    public mutating func apply(_ transaction: Transaction) {
+        guard (transaction.time, transaction.site) > (time, site) else { return }
+        value = transaction.value
+        time = transaction.time
+        site = transaction.site
     }
 
-    public func operation(value: Value, site: Site? = nil) -> Operation {
+    public func transaction(value: Value, site: Site? = nil) -> Transaction {
         let site = site ?? self.site
-        return Operation(site: site, time: time.incremented, value: value)
+        return Transaction(site: site, time: time.incremented, value: value)
     }
 }
 
@@ -53,8 +53,8 @@ extension LWWRegister: CmRDT {
 
 extension LWWRegister: Decodable where Value: Decodable {}
 extension LWWRegister: Encodable where Value: Encodable {}
-extension LWWRegister.Operation: Decodable where Value: Decodable {}
-extension LWWRegister.Operation: Encodable where Value: Encodable {}
+extension LWWRegister.Transaction: Decodable where Value: Decodable {}
+extension LWWRegister.Transaction: Encodable where Value: Encodable {}
 
 // MARK: - CustomDebugStringConvertible
 

@@ -6,14 +6,14 @@ import XCTest
 
 public func AssertCommutative<T: CmRDT & Equatable>(
     make: () -> T,
-    operation: (T) -> T.Operation,
+    transaction: (T) -> T.Transaction,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
     AssertCommutative(
         validating: \.self,
         make: make,
-        operation: operation,
+        transaction: transaction,
         file: file,
         line: line)
 }
@@ -21,15 +21,15 @@ public func AssertCommutative<T: CmRDT & Equatable>(
 public func AssertCommutative<T: CmRDT, V: Equatable>(
     validating keyPath: KeyPath<T, V>,
     make: () -> T,
-    operation: (T) -> T.Operation,
+    transaction: (T) -> T.Transaction,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
 
     func assert(_ a: T, _ b: T) {
         XCTAssertEqual(
-            a.applying(b.operations)[keyPath: keyPath],
-            b.applying(a.operations)[keyPath: keyPath],
+            a.applying(b.transactions)[keyPath: keyPath],
+            b.applying(a.transactions)[keyPath: keyPath],
             "Not commutative.",
             file: file,
             line: line
@@ -41,8 +41,8 @@ public func AssertCommutative<T: CmRDT, V: Equatable>(
         var b = make()
         assert(a, b)
 
-        loop(.random(in: 1...10)) { a.apply(operation(a)) }
-        loop(.random(in: 1...10)) { b.apply(operation(b)) }
+        loop(.random(in: 1...10)) { a.apply(transaction(a)) }
+        loop(.random(in: 1...10)) { b.apply(transaction(b)) }
         assert(a, b)
     }
 }

@@ -12,20 +12,20 @@ public struct Max<Value: Comparable>: Equatable {
 
 extension Max: CmRDT {
 
-    public struct Operation {
+    public struct Transaction {
         fileprivate let value: Value
     }
 
-    public var operations: [Operation] {
-        [Operation(value: value)]
+    public var transactions: [Transaction] {
+        [Transaction(value: value)]
     }
 
-    public mutating func apply(_ operation: Operation) {
-        value = max(value, operation.value)
+    public mutating func apply(_ transaction: Transaction) {
+        value = max(value, transaction.value)
     }
 
-    public func operation(value: Value) -> Operation {
-        Operation(value: value)
+    public func transaction(value: Value) -> Transaction {
+        Transaction(value: value)
     }
 }
 
@@ -45,14 +45,14 @@ extension Max: Encodable where Value: Encodable {
     }
 }
 
-extension Max.Operation: Decodable where Value: Decodable {
+extension Max.Transaction: Decodable where Value: Decodable {
 
     public init(from decoder: Decoder) throws {
         try self.init(value: Value(from: decoder))
     }
 }
 
-extension Max.Operation: Encodable where Value: Encodable {
+extension Max.Transaction: Encodable where Value: Encodable {
 
     public func encode(to encoder: Encoder) throws {
         try value.encode(to: encoder)
