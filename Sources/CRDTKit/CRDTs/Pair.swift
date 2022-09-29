@@ -21,11 +21,36 @@ extension Pair: CvRDT where A: CvRDT, B: CvRDT {
 
 extension Pair: CmRDT where A: CmRDT, B: CmRDT {
 
+    public struct Operation {
+        fileprivate let kind: Kind
+        fileprivate enum Kind {
+            case a(A.Operation)
+            case b(B.Operation)
+        }
+    }
+
+    public func operation(_ operation: (A) -> A.Operation) -> Operation {
+        Operation(kind: .a(operation(a)))
+    }
+
+    public func operation(_ operation: (B) -> B.Operation) -> Operation {
+        Operation(kind: .b(operation(b)))
+    }
+
     public struct Transaction {
         fileprivate let kind: Kind
         fileprivate enum Kind {
             case a(A.Transaction)
             case b(B.Transaction)
+        }
+    }
+
+    public func transaction(site: Site, operation: Operation) -> Transaction {
+        switch operation.kind {
+        case let .a(operation):
+            return Transaction(kind: .a(a.transaction(site: site, operation: operation)))
+        case let .b(operation):
+            return Transaction(kind: .b(b.transaction(site: site, operation: operation)))
         }
     }
 

@@ -26,6 +26,20 @@ extension LWWRegister: Hashable where Value: Hashable {}
 
 extension LWWRegister: CmRDT {
 
+    public struct Operation {
+        fileprivate let time: Time
+        fileprivate let value: Value
+    }
+
+    public mutating func setValue(_ value: Value) -> Operation {
+        defer { time.increment() }
+        return Operation(time: time, value: value)
+    }
+
+    public func transaction(site: Site, operation: Operation) -> Transaction {
+        Transaction(site: site, time: operation.time, value: operation.value)
+    }
+
     public struct Transaction {
         fileprivate let site: Site
         fileprivate let time: Time

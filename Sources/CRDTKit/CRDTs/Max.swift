@@ -12,6 +12,14 @@ public struct Max<Value: Comparable>: Equatable {
 
 extension Max: CmRDT {
 
+    public struct Operation {
+        fileprivate let value: Value
+    }
+
+    public func setValue(_ value: Value) -> Operation {
+        Operation(value: value)
+    }
+
     public struct Transaction {
         fileprivate let value: Value
     }
@@ -22,6 +30,10 @@ extension Max: CmRDT {
 
     public mutating func apply(_ transaction: Transaction) {
         value = max(value, transaction.value)
+    }
+
+    public func transaction(site: Site, operation: Operation) -> Transaction {
+        Transaction(value: operation.value)
     }
 
     public func transaction(value: Value) -> Transaction {

@@ -2,8 +2,10 @@
 /// Operation-based CRDT: Commutative Replicated Data Type.
 public protocol CmRDT: CvRDT {
     associatedtype Transaction
+    associatedtype Operation
     var transactions: [Transaction] { get }
     mutating func apply(_ transaction: Transaction)
+    func transaction(site: Site, operation: Operation) -> Transaction
 }
 
 extension CmRDT {

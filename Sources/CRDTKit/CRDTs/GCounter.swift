@@ -33,9 +33,17 @@ extension GCounter: CvRDT {
 
 extension GCounter: CmRDT {
 
+    public struct Operation {
+        fileprivate let value: Max<Value>
+    }
+
     public struct Transaction {
         fileprivate let site: Site
         fileprivate let value: Max<Value>
+    }
+
+    public func transaction(site: Site, operation: Operation) -> Transaction {
+        Transaction(site: site, value: operation.value)
     }
 
     public var transactions: [Transaction] {
